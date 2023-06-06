@@ -18,3 +18,22 @@ void sort012(int *arr, int n)
    for(int i=count0; i<count0+count1; i++) arr[i] = 1;
    for(int i=count0+count1; i<n; i++) arr[i] = 2;
 }
+
+// Optimal Approach : Using Dutch National Flag Algorithm or (3Pointer Approach):
+
+int low = 0, mid = 0, high = n-1, // these are 3 pointers. 
+
+while(mid<=high) {
+   if(arr[mid] == 0) {
+      swap(arr[mid], arr[low]);
+      low++;
+      mid++;
+   }
+   else if(arr[mid] == 1) {
+      mid++;
+   }
+   else {
+      swap(arr[mid], arr[high]);
+      high--;
+   }
+}
