@@ -67,3 +67,65 @@ public:
         return divideAndconquer(0, k-1, lists);
     }
 };
+
+//Code Of Code Studio:
+// https://www.codingninjas.com/codestudio/problems/merge-k-sorted-lists_992772
+/************************************************************
+
+    Following is the linked list node structure
+
+    template <typename T>
+    class Node {
+        public:
+        T data;
+        Node* next;
+
+        Node(T data) {
+            next = NULL;
+            this->data = data;
+        }
+
+        ~Node() {
+            if (next != NULL) {
+                delete next;
+            }
+        }
+    };
+
+************************************************************/
+Node<int>* mergeTwoLists(Node<int>* l1, Node<int>* l2) {
+    if (l1 == NULL) return l2;
+    if (l2 == NULL) return l1;
+
+    if (l1->data <= l2->data) {
+        l1->next = mergeTwoLists(l1->next, l2);
+        return l1;
+    } else {
+        l2->next = mergeTwoLists(l1, l2->next);
+        return l2;
+    }
+}
+
+Node<int>* divideAndConquer(int start, int end, vector<Node<int>*>& listArray) {
+    if (start > end) return NULL;
+    if (start == end) return listArray[start];
+
+    int mid = start + (end - start) / 2;
+
+    Node<int>* L1 = divideAndConquer(start, mid, listArray);
+    Node<int>* L2 = divideAndConquer(mid + 1, end, listArray);
+
+    return mergeTwoLists(L1, L2);
+}
+
+Node<int>* mergeKLists(vector<Node<int>*> &listArray)
+{
+    // Write your code here.
+    int k = listArray.size();
+
+    if (k == 0) return NULL;
+
+    return divideAndConquer(0, k - 1, listArray);
+    
+}
+
